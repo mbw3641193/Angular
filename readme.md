@@ -176,5 +176,14 @@ Angular 4 特点：
 ###### 1.强依赖于TypeScript
 ###### 2.强调组件
 
+脚手架：
+```
+@angular/cli
+
+npm install -g @angular/cli   //全局安装脚手架
+
+ng new xxx  //创建一个项目
+```
+
 
 
