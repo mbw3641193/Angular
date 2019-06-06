@@ -176,13 +176,70 @@ Angular 4 特点：
 ###### 1.强依赖于TypeScript
 ###### 2.强调组件
 
-脚手架：
-```
-@angular/cli
 
+### TypeScript
+
+```
+// 变量定义:
+
+let name:string = "bob";
+let num:number = 6;
+let list:number[] = [1,2,3];
+let arr:any[] = [1,2,'3',true];
+
+------------------------------------------------------
+
+//枚举:
+
+//每周只有3天，以外的数据不需要
+enum Week{ One, Two, Three=3 }   //默认是从0开始，与索引类似
+
+//使用枚举类型
+let w:Week ;
+
+//赋值
+w = Week.Three;  //3
+
+------------------------------------------------------
+
+```
+
+### 脚手架 @angular/cli  ：
+```
 npm install -g @angular/cli   //全局安装脚手架
 
 ng new xxx  //创建一个项目
+
+|-- e2e                     测试
+|
+|-- src                     源文件
+|
+|-- .editorconfig           编辑器默认配置:空格、首行缩进2格、等等
+|
+|-- angular.json            工程配置文件(*)
+|
+|-- karma.conf.js           测试用引擎
+|
+|-- tsconfig.json 
+|
+|-- tslint.json
+|
+
+```
+
+#### app.component.ts
+```
+import { Component } from '@angular/core';
+
+@Component({                                //组件声明
+  selector: 'app-root',                     //标签名
+  templateUrl: './app.component.html',      //引入html
+  styleUrls: ['./app.component.scss']       //引入scss
+})
+export class AppComponent {                 //导出整个组件
+  title = 'myFirstDemo';
+}
+
 ```
 
 
