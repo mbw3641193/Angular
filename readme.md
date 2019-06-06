@@ -97,16 +97,20 @@ mod.controller('ctrl1',function($scope){
 
 #### Angular 与  Vue 的数据检查
 
-<h4>Angular --- 脏检查（循环所有的数据进行对比）所以性能较低，需要尽可能少的检查数据</h4>
+<h3>Angular --- 脏检查（循环所有的数据进行对比）所以性能较低，需要尽可能少的检查数据</h3>
 <h5>所以Angular只在两个地方检查数据:
+<br>
 1.  函数执行完成时
+<br>
 2.  主动要求Angular进行检查 $scope.$apply();
-
+<br>
 Angular对异步不友好，因为无法检查数据：
+<br>
 请求数据使用：$http
+<br>
 定时器： $interval  $timeout
 </h5>
-<h4>Vue --- observe模式（dom-diff）</h4>
+<h3>Vue --- observe模式（dom-diff）</h3>
 
 
 ### MVVM
@@ -166,6 +170,11 @@ mod.filter('phone',function(){   //filter自定义模块,相当于是vue中的fi
 ```
 
 
-## Angular 4
+## Angular 4 && AngularIO
+
+Angular 4 特点：
+###### 1.强依赖于TypeScript
+###### 2.强调组件
+
 
 
