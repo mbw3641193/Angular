@@ -202,10 +202,85 @@ w = Week.Three;                     //赋值 //3
 
 ------------------------------------------------------------------------------------------------------------
 
+//返回值return：
+
+function getNum(n:number):number{   n的类型是number,返回值是number
+    return n+1
+}
+
+let result : number;
+result = getNum(4);
+console.log(result);                //5
+
+//void:
+
+function show(str:string):void{   n的类型是string,没有返回值
+    console.log(str);
+    return 1;           //error
+    return null;        //通过
+    return undefined    //通过
+}
+
+show('123');   //123
 
 
+------------------------------------------------------------------------------------------------------------
+
+//类型断言：
+
+//1
+let myStr:string = <string>abcd;  //声明一个string类型，并断言abcd是string
+
+//2
+let myStr:string = abcd as string; //声明一个string类型，并断言abcd是string
 
 
+------------------------------------------------------------------------------------------------------------
+
+//类：
+
+class Person {
+    name:string;
+    constructor(message:string){
+        this.name = message;
+    }
+    getName(){
+        return this.name;
+    }
+}
+
+let person = new Person("Ethan");  
+
+
+------------------------------------------------------------------------------------------------------------
+
+//修饰符：
+//访问修饰符与继承无关，只要符合继承规则都能通过实例对象访问；
+
+//private 只能在 自己的class中 访问，class外不能访问
+
+//protected 可以在 自己的class中 和 子类的class中 访问，class外不能访问
+
+//public 可以在任意代码范围访问 包括 class外 和 其他继承的class
+
+class Person {
+
+    public name:string = 'Ethan';   //pubilc 能够被外部访问，能够被继承
+
+    private age:number = 18;        //private 不能够被外部访问(只能在Person里面被访问)，能够被继承
+
+    protected sex:string = 'male';  
+
+    public getName():void{
+        console.log('my name is:' + this.name + ',my age is:' + this.age);
+    }
+}
+
+let person = new Person();  
+person.name = 'mbw';
+person.age = 20;            //error => 属性只能在class中被访问
+
+person.getName();           // 'my name is mbw,my age is 18';
 
 
 
