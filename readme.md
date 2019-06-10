@@ -263,6 +263,9 @@ let person = new Person("Ethan");
 
 //public 可以在任意代码范围访问 包括 class外 和 其他继承的class
 
+//readonly 只读
+
+
 class Person {
 
     public name:string = 'Ethan';   //pubilc 能够被外部访问，能够被继承
@@ -281,6 +284,144 @@ person.name = 'mbw';
 person.age = 20;            //error => 属性只能在class中被访问
 
 person.getName();           // 'my name is mbw,my age is 18';
+
+
+------------------------------------------------------------------------------------------------------------
+
+// set/get存储器：(相当于defineProperty 的 get和 set)
+
+
+class Person {
+    private _age:number = 18;       
+
+    //提供公共的访问方式
+    
+    get age():number {              //返回number类型
+        return this._age;
+    }
+
+    set age(newAge:number) {
+        this._age = newAge;
+    }
+}
+
+------------------------------------------------------------------------------------------------------------
+
+// 静态属性:
+
+class Test {
+
+    age:number = 12;
+    static myName:string='123';
+    
+    static show(){
+        console.log(this.age);
+    }
+
+    //实例可以访问静态
+    myShow(){
+        console.log(Test.myName);
+    }
+}
+
+console.log(Test.myName);    // '123'
+
+Test.show(); //模板早于实例的创建，不能访问实例属性 => 静态不能访问实例属性
+
+let test = new Test();
+test.myShow()  //"123" => 实例可以访问静态
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+// 抽象类:(只定义，不实现)
+
+abstract class Animal {
+
+    abstract makeSound(): void;
+
+    move():void {
+        console.log('走路中......');
+    }
+}
+
+// 只有抽象类可以包含抽象方法
+class Cat extends Animal {
+    makeSound(){
+        console.log('喵......');
+    }
+}
+
+class Dog extends Animal {
+    makeSound(){
+        console.log('汪......');
+    }
+}
+
+
+let cat = new Cat();
+cat.makeSound();   // '喵......'
+
+let dog = new Dog();
+dog.makeSound();   // '汪......'
+
+
+------------------------------------------------------------------------------------------------------------
+
+// 接口
+
+//一个类只能继承一个类；但是一个类可以实现多个接口
+
+interface Gun {
+    fire(str:string); //定义一个方法
+}
+
+interface GunName extends Gun {
+    name:string;
+}
+
+class BlackCat implements GunName{
+    color:string = 'red';
+
+    fire(str:string){
+        console.log('黑猫警长开火了',str,this.color);
+    }
+}
+
+let blackcat = new BlackCat;
+blackcat.fire('子弹')
+
+
+------------------------------------------------------------------------------------------------------------
+
+// 泛型
+
+//any:任意的数据类型，代表 这个函数或者类中 使用的变量类型永远是 任意类型
+//泛型：代表留空，使用的时候填入什么类型，这个类或者函数就永远是什么类型
+
+//函数由外部传递泛型
+
+function Test<T>(arg :T):T {  //由于未来需要对类型进行处理或者判断，所以需要规定一个类型T
+    return arg;
+}
+
+let answer = Test<string>('myString');   //此处相当于 把string类型 赋给了 T
+
+
+//类由外部传递泛型
+
+class Test<T,S> {
+    public a : T;
+
+    add(b :S):S {
+        return b;
+    }
+}
+
+let test = new Test<number,string>();
+test.a = 123;
+text.add('hello world');
 
 
 
