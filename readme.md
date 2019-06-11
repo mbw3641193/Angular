@@ -170,7 +170,7 @@ mod.filter('phone',function(){   //filter自定义模块,相当于是vue中的fi
 ```
 
 
-## Angular 4 && AngularIO
+## AngularIO
 
 Angular 4 特点：
 ###### 1.强依赖于TypeScript
@@ -465,5 +465,7 @@ export class AppComponent {                 //导出整个组件
 
 ```
 
+#### 常用指令
 
+> 参见 myFirstDemo>src>app>app.component.html
 
