@@ -466,6 +466,58 @@ export class AppComponent {                 //导出整个组件
 ```
 
 #### 常用指令
+```
+//定义属性和方法
+export class AppComponent {
+  title = 'myFirstDemo';
+  students: string[] = ['张三', '李四', '王五'];
+  isIf: boolean = true;
+  v1: string = '我是v1';
+  v2: string = '我是v2';
+  change(){
+    this.isIf = !this.isIf;
+  }
+}
+
+//循环
+<h4 *ngFor="let item of students;let i = index;">
+{{item}}{{i}}
+</h4>
+
+
+//判断
+<button *ngIf="isIf">123</button>
+
+
+//属性赋值
+<input type="text" value="{{v1}}">
+<input type="text" [value]="v2">
+<input type="text" [value]="'v2'">
+
+
+//事件
+<button (click)="change()">点我</button>
+
+
+//双向数据绑定
+/**
+*
+* 初始 ngModel 不好用。需要在对应的module.ts中引入form组件  
+*
+*    import {FormsModule} from '@angular/forms';   //增加对ngModel的支持
+*    imports: [
+*        ...
+*        FormsModule                               //增加对ngModel的支持
+*    ],
+*
+*/ 
+
+<input type="text" [(ngModel)]="v2">
+<p>{{v2}}</p>
+
+
+
+```
 
 > 参见 myFirstDemo>src>app>app.component.html
 

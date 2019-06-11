@@ -5,30 +5,4 @@
   </h1>
   <hr>
 
-
-  <h2>循环:</h2>
-  <h4 *ngFor="let item of students;let i = index;">
-    {{item}}{{i}}
-  </h4>
-  <hr>
-
-  <h2>判断:</h2>
-  <button *ngIf="isIf">123</button>
-  <hr>
-
-  <h2>属性赋值:</h2>
-  <input type="text" value="{{v1}}">
-  <input type="text" [value]="v2">
-  <input type="text" [value]="'v2'">
-  <hr>
-  
-  <h2>事件:</h2>
-  <button (click)="change()">点我</button>
-  <hr>
-
-  <h2>双向数据绑定:</h2>
-  <!-- 初始 ngModel 不好用。需要在对应的module.ts中引入form组件  -->
-  <input type="text" [(ngModel)]="v2">
-  <p>{{v2}}</p>
-  <hr>
 </div>

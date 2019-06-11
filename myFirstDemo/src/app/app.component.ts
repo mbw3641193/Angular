@@ -13,11 +13,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'myFirstDemo';
-  students: string[] = ['张三', '李四', '王五'];
-  isIf: boolean = true;
-  v1: string = '我是v1';
-  v2: string = '我是v2';
-  change(){
-    this.isIf = !this.isIf;
-  }
 }
