@@ -519,5 +519,166 @@ export class AppComponent {
 
 ```
 
-> 参见 myFirstDemo>src>app>app.component.html
+#### Slot
+`ng generate component xxx`
+
+
+```
+//组件传递属性
+export class Test1Component implements OnInit {
+  @Input() num:number; //传递num属性
+  @Input() title:string; //传递title属性
+
+  text:string = "哈哈";
+
+  constructor() { }
+
+  //相当于react 的 componentDidMount  或者 vue 的 created
+  ngOnInit() {
+    console.log(this);
+  }
+
+}
+
+//父组件获取属性
+<app-test1 num="1" [title]="title">   //中括号便是获取变量
+</app-test1>
+```
+
+
+```
+//组件插槽
+//app.component.html  => 插入slot
+
+<app-test1 num="1" [title]="title">
+  <h1 class="a">我是h1</h1>
+  <h2 title="b">我是h2</h2>
+  <h3 id="c">我是h3</h3>
+</app-test1>
+
+
+//test1.component.html  => 定义slot(三种方式)
+
+<div style="background-color: #ddd;">
+  <ng-content select=".a"></ng-content>
+</div>
+
+<div style="background-color: #eee;">
+  <ng-content select="[title=b]"></ng-content>
+</div>
+
+<div style="background-color: #fff;">
+  <ng-content #c></ng-content>
+</div>
+
+
+```
+
+
+#### 指令
+`ng generate directive ./directives/myDirective`
+
+```
+//app.component.html  => 插入directive
+
+<div appMyDirective="123">wozaizheli</div>
+
+
+//mydirective.directive.html  => 定义directive
+
+import { Directive, Input, HostListener, ElementRef } from '@angular/core';
+
+@Directive({
+  selector: '[appMyDirective]'
+})
+export class MyDirectiveDirective {
+  @Input() appMyDirective: string;
+  constructor(el: ElementRef) {
+    //这个生命周期有点类似于vue的beforeCreate
+    console.log(this);
+    console.log(this.appMyDirective);  //undefined 此时只能log出默认值，因为太早了
+    this.el = el;
+  }
+  //需要写在函数的上方，便是事件调用该函数
+  @HostListener('click')
+  onclick() {
+    console.log(this.appMyDirective);
+    console.log(this.el);
+  }
+
+}
+```
+
+#### 路由
+`ng generate module app-routing --flat --module=app`
+
+```
+//路由模块 定义路由index和home两个页面，其中index是query传参，home是params传参
+
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+const routes: Routes = [
+  { path: 'index', component: IndexComponent },
+  { path: 'home/:id', component: HomeComponent }
+];
+
+
+
+//index模块
+
+import { ActivatedRoute as Route} from '@angular/router';
+
+export class IndexComponent implements OnInit {
+  // route:any;
+  constructor(public route:Route) { 
+    // this.route = route;  //该写法 等同于上面 构造器上加pubilc
+  }
+
+  ngOnInit() {
+    let id = this.route.snapshot.queryParamMap.get('id');  //查找query
+    console.log(id);
+  }
+
+}
+
+
+//index模块
+
+import { ActivatedRoute as Route} from '@angular/router';
+
+export class HomeComponent implements OnInit {
+
+  constructor(public route:Route) { }
+
+  ngOnInit() {
+    let id = this.route.snapshot.paramMap.get('id');
+    console.log(id);
+  }
+
+}
+
+
+//路由跳转方法
+
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+
+export class AppComponent {
+  title = 'myFirstDemo';
+  constructor(public location:Location,public router:Router){
+
+  }
+  goBack(){
+    this.location.back();
+  }
+  forWard(){
+    this.location.forward();
+  }
+  navigate(url){
+    this.router.navigateByUrl(url);
+  }
+}
+
+```
 
