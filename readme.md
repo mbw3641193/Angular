@@ -682,3 +682,45 @@ export class AppComponent {
 
 ```
 
+#### 请求
+```
+//注册到全局(app.module.ts)
+
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  declarations: [
+   ...
+  ],
+  imports: [
+    ...
+    HttpClientModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+//模块中使用
+
+import { HttpClient } from '@angular/common/http';
+
+export class SigninComponent implements OnInit {
+
+  constructor(private http:HttpClient) { }
+
+  ngOnInit() {
+  }
+  login(e){
+    e.preventDefault();
+    //跟Promise有点相似，叫做 Observable
+    this.http.get('http://www.sinya.online/api/getlunbo').subscribe((res)=>{
+      console.log(res);
+    },(err)=>{
+      console.log(err);
+    })
+  }
+
+}
+```
