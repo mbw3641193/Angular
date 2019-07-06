@@ -724,3 +724,12 @@ export class SigninComponent implements OnInit {
 
 }
 ```
+
+20190706 代码解构总结
+
+> 声明一个变量(public,protected,private)
+` public username:any = '张三'; `
+
+> 声明一个数组
+` public list:any[] = ['111',222,'333']; `
+` public list:Array<any> = ['111',222,'333'];   //与上面相等`
