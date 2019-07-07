@@ -730,6 +730,252 @@ export class SigninComponent implements OnInit {
 > 声明一个变量(public,protected,private)
 ` public username:any = '张三'; `
 
+
 > 声明一个数组
 ` public list:any[] = ['111',222,'333']; `
 ` public list:Array<any> = ['111',222,'333'];   //与上面相等`
+
+
+> 使用viewChild 获取dom节点
+```
+//html
+<div #myBox>  123  </div>
+
+//ts
+import {viewChild} from '@angular/core';
+
+@ViewChild('myBox') myTsBox:any;   //获取到myBox节点，并将其赋给myTsBox,定义为any或者ElementRef
+
+ngAfterViewInit(){
+  console.log(this.myTsBox);
+
+  this.myTsBox.nativeElement.style.width = '100px';  //获取节点后 原生js修改属性
+}
+
+```
+
+> 使用viewChild 获取组件实例 => 父组件调用子组件的方法和数据
+```
+//html
+<app-header #header></app-header>   //在html中引入子组件,里面有一个run方法
+
+//ts
+import {viewChild} from '@angular/core';
+
+@ViewChild('header') myHeader:any;   //获取到header组件，并将其赋给myHeader,定义为any
+
+ngAfterViewInit(){
+  console.log(this.myHeader);
+
+  //调用子组件里面的方法
+  this.myHeader.run();
+
+  
+}
+
+```
+
+
+
+> 子组件给父组件广播数据和方法 //该方法不建议使用，使用viewChild即可
+```
+<!--------header组件-------->
+//html
+
+
+<button (click)="sendToParent()">通过@output给父组件广播数据</button>
+
+
+//ts
+import {Output,EventEmitter} from '@angular/core';  
+
+@output() private outer = new EventEmitter();  //定义一个事件驱动的实例
+
+sendToParent(){
+  this.outer.emit('我是子组件的数据');
+}
+
+
+<!--------body组件-------->
+//html
+<header (outer)=run($event)></header> //引入子组件
+
+//ts
+pubilc title = 'hello world!';
+
+public run(e){
+  alert('i am a function!');
+  console.log(e);       //=>'我是子组件的数据'
+}
+
+```
+
+
+
+
+> 父组件给子组件传值/传方法
+```
+<!--------header组件-------->
+//html
+<div>  {{titleHeader}} </div>
+
+<button (click)="getRun()">子组件中执行父组件方法</button>
+
+
+//ts
+import {input} from '@angular/core';
+
+@input() titleHeader:any;
+@input() runHeader:any;
+
+
+getRun(){
+  this.runHeader();
+}
+
+
+
+<!--------body组件-------->
+//html
+<header [titleHeader]="title" [runHeader]="run"></header> //引入子组件
+
+//ts
+pubilc title = 'hello world!';
+
+public run(){
+  alert('i am a function!');
+}
+
+```
+
+
+> 父组件给子组件传自己所有东西
+```
+<!--------header组件-------->
+//html
+<div>  {{body.title}} </div>
+
+<button (click)="getRun()">子组件中执行父组件方法</button>
+
+
+//ts
+import {input} from '@angular/core';
+
+@input() body:any;
+
+
+getRun(){
+  this.body.run();
+}
+
+
+
+<!--------body组件-------->
+//html
+<header [body]="this" ></header> //引入子组件
+
+//ts
+pubilc title = 'hello world!';
+
+public run(){
+  alert('i am a function!');
+}
+
+```
+
+
+> 生命周期
+```
+//卸载组件触发  ngOnDestory  =>有用。销毁的时候可以执行保存数据操作
+
+//数据改变触发 ngDoCheck 
+```
+
+> 路由状态
+```
+<a routerLink="/page" routerLinkAcitve="active"></a>
+
+
+//css
+.active{
+  color:red;
+}
+
+
+```
+
+
+> 路由传值
+```
+//get传值
+<a routerLink="/page" [queryParams]="{aid:key,name:name}"></a>
+
+
+//ts
+import {ActivatedRoute} from '@angular/core';  
+
+constructor(private route:ActivatedRoute){}
+
+ngOnInit(){
+  console.log(this.route.queryParams);  //this.route.queryParams 是一个 observable 对象
+
+  this.route.queryParams.subscribe(data=>{
+    console.log(data);  //获取get传值
+  })
+}
+
+```
+
+> 动态路由
+```
+<ul>
+  <li *ngFor="let item of list; let key =  index">
+    <a [routerLink]="  '/page/' , key  "></a>
+  </li>
+</ul>
+
+
+//ts
+this.route.params.subscribe(data=>{
+    console.log(data);  //获取get传值
+  })
+```
+
+> 通过js跳转普通路由
+```
+<a (click)="gotoPage()">页面跳转</a>
+
+
+//ts
+import {Router} from '@angular/router';  
+
+constructor(private router:Router){}
+
+gotoPage(){
+  //普通路由和动态路由都适合
+  this.router.navigate(['/page/','123']);
+}
+
+```
+
+> 通过js跳转get路由
+```
+<a (click)="gotoPage()">页面跳转</a>
+
+
+//ts
+import {Router, NavigationExtras} from '@angular/router';  
+
+constructor(private router:Router){}
+
+gotoPage(){
+  let queryParams : NavigationExtras = {
+    queryParams:{'aid':123},
+    //fragment:'anchor'
+  }
+  //普通路由和动态路由都适合
+  this.router.navigate(['/page/'],queryParams);
+}
+```
+
+
